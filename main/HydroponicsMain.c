@@ -8,7 +8,9 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 
-static const char * TAG = "testing app";
+#include "WifiInfo.h"
+#include "HydroponicsUtils.h"
+
 esp_err_t event_handler(void *ctx, system_event_t *event)
 {
     return ESP_OK;
@@ -25,8 +27,8 @@ void app_main(void)
     ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );
     wifi_config_t sta_config = {
         .sta = {
-            .ssid = "yggdrasil",
-            .password = "d3x&l0ki",
+            .ssid = HOME_WIFI_SSID,
+            .password = HOME_WIFI_PASS,
             .bssid_set = false
         }
     };
@@ -42,14 +44,14 @@ void app_main(void)
         vTaskDelay(500 / portTICK_PERIOD_MS);
         gpio_set_level(GPIO_NUM_4, level);
         level = !level;
-        ESP_LOGI(TAG, "LED set to: [%d]", level);
+        ESP_LOGI(LOG_TAG, "LED set to: [%d]", level);
         if (tcpip_adapter_get_ip_info(ESP_IF_WIFI_STA, &ip) == 0) 
         {
-            ESP_LOGI(TAG, "~~~~~~~~~~~");
-            ESP_LOGI(TAG, "IP:"IPSTR, IP2STR(&ip.ip));
-            ESP_LOGI(TAG, "MASK:"IPSTR, IP2STR(&ip.netmask));
-            ESP_LOGI(TAG, "GW:"IPSTR, IP2STR(&ip.gw));
-            ESP_LOGI(TAG, "~~~~~~~~~~~");
+            ESP_LOGI(LOG_TAG, "~~~~~~~~~~~");
+            ESP_LOGI(LOG_TAG, "IP:"IPSTR, IP2STR(&ip.ip));
+            ESP_LOGI(LOG_TAG, "MASK:"IPSTR, IP2STR(&ip.netmask));
+            ESP_LOGI(LOG_TAG, "GW:"IPSTR, IP2STR(&ip.gw));
+            ESP_LOGI(LOG_TAG, "~~~~~~~~~~~");
         }
     }
 }

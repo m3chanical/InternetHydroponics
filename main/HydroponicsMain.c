@@ -15,7 +15,7 @@
 
 esp_err_t event_handler(void *ctx, system_event_t *event)
 {
-    return ESP_OK;
+    return ESP_OK; // TODO: Make this more good-er.
 }
 
 void app_main(void)
